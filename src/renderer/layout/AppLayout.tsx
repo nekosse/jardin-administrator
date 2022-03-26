@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
-import Bar from '../components/SideBar/Bar';
 import { ToastContainer, toast } from 'react-toastify';
+import Bar from '../components/SideBar/Bar';
 import 'react-toastify/dist/ReactToastify.css';
 
 const AppLayout = () => {
