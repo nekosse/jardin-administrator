@@ -14,6 +14,8 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
+import { SendIt, setList } from './sendMail';
+import { closeDB, initDB, sendMailList } from './dataBaseManager';
 
 export default class AppUpdater {
   constructor() {
@@ -23,7 +25,21 @@ export default class AppUpdater {
   }
 }
 
-let mainWindow: BrowserWindow | null = null;
+export let mainWindow: BrowserWindow | null = null;
+
+ipcMain.on('sendMail', () => {
+  console.log('ipcMain: Executing SendIt');
+  SendIt();
+});
+
+ipcMain.on('SetPDFList', (event, args) => {
+  console.log(event, args);
+  setList(args);
+});
+
+ipcMain.on('mail:getList', () => {
+  sendMailList();
+});
 
 ipcMain.on('ipc-example', async (event, arg) => {
   const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
@@ -55,6 +71,8 @@ const installExtensions = async () => {
     )
     .catch(console.log);
 };
+
+initDB();
 
 const createWindow = async () => {
   if (isDevelopment) {
@@ -95,6 +113,7 @@ const createWindow = async () => {
   });
 
   mainWindow.on('closed', () => {
+    closeDB();
     mainWindow = null;
   });
 
@@ -120,6 +139,7 @@ app.on('window-all-closed', () => {
   // Respect the OSX convention of having the application in memory even
   // after all windows have been closed
   if (process.platform !== 'darwin') {
+    closeDB();
     app.quit();
   }
 });

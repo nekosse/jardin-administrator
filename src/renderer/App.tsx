@@ -1,50 +1,75 @@
-import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
-import icon from '../../assets/icon.svg';
-import './App.css';
+import { FC } from 'react';
+import './App.scss';
+import { HashRouter, Route, Routes } from 'react-router-dom';
+import Home from './pages/Overview';
+import Tutelle from './pages/Tutelle';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const Hello = () => {
+import AppLayout from './layout/AppLayout';
+import Tutelle2 from './pages/Tutelle2';
+
+const App: FC = () => {
+  const error = () =>
+    toast.error("Erreur le mail n'est pas arrivé à destination", {
+      position: 'bottom-center',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  const success = () =>
+    toast.success('Le mail a bien été envoyé', {
+      position: 'bottom-center',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+
+  window.electron.ipcRenderer.on('mail:error', () => {
+    console.log('coucou');
+    error();
+  });
+
+  console.log('ahahahahah');
+
+  window.electron.ipcRenderer.on('mail:success', () => {
+    console.log('coucou');
+    success();
+  });
+
   return (
     <div>
-      <div className="Hello">
-        <img width="200px" alt="icon" src={icon} />
-      </div>
-      <h1>electron-react-boilerplate</h1>
-      <div className="Hello">
-        <a
-          href="https://electron-react-boilerplate.js.org/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <button type="button">
-            <span role="img" aria-label="books">
-              📚
-            </span>
-            Read our docs
-          </button>
-        </a>
-        <a
-          href="https://github.com/sponsors/electron-react-boilerplate"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <button type="button">
-            <span role="img" aria-label="books">
-              🙏
-            </span>
-            Donate
-          </button>
-        </a>
-      </div>
+      <p>coucou</p>
+      <HashRouter>
+        <Routes>
+          <Route path="/" element={<AppLayout />}>
+            <Route index element={<Home />} />
+            <Route path="/home" element={<Home />}></Route>
+            <Route path="/tutelle" element={<Tutelle />}></Route>
+            <Route path="/tutelle/2" element={<Tutelle2 />}></Route>
+          </Route>
+        </Routes>
+      </HashRouter>
+
+      <ToastContainer
+        position="bottom-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };
 
-export default function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Hello />} />
-      </Routes>
-    </Router>
-  );
-}
+export default App;

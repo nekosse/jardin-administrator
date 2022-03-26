@@ -3,6 +3,10 @@ declare global {
     electron: {
       ipcRenderer: {
         myPing(): void;
+        sendMail(): void;
+        getMailList(): void;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        setPdfList(pdfList: any): void;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         on(channel: string, func: (...args: any[]) => void): void;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
