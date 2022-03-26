@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import Bar from '../components/SideBar/Bar';
-import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AppLayout = () => {
   const error = () =>
