@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import { Key, useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './Bar.scss';
-import { SidebarData } from './SidebarData';
+import SidebarData from './SidebarData';
 import LogoJardin from '../../ressources/logo-jardin.svg';
 
 const Bar = () => {
@@ -26,14 +26,14 @@ const Bar = () => {
     const curPath = location.pathname.split('/')[1];
 
     const activeItem = SidebarData.findIndex(
-      (item) => item.section === curPath
+      (item: { section: string }) => item.section === curPath
     );
     setActiveIndex(curPath.length === 0 ? 0 : activeItem);
   }, [location]);
   return (
     <div className="sidebar">
       <div className="sidebar__title">
-        <img className="sidebar__logoJardin" src={LogoJardin} />
+        <img alt="" className="sidebar__logoJardin" src={LogoJardin} />
 
         <div className="sidebar__logo">JardinStrator</div>
       </div>
@@ -47,9 +47,9 @@ const Bar = () => {
               activeIndex * stepHeight
             }px)`,
           }}
-        ></div>
-        {SidebarData.map((item, index) => (
-          <Link to={item.path} key={index}>
+        />
+        {SidebarData.map((item: any, index: Key | null | undefined) => (
+          <Link to={item.path}>
             <div
               className={`sidebar__menu__item ${
                 activeIndex === index ? 'active' : ''

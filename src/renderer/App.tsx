@@ -1,9 +1,9 @@
 import { FC } from 'react';
 import './App.scss';
 import { HashRouter, Route, Routes } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 import Home from './pages/Overview';
 import Tutelle from './pages/Tutelle';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import AppLayout from './layout/AppLayout';
@@ -50,9 +50,9 @@ const App: FC = () => {
         <Routes>
           <Route path="/" element={<AppLayout />}>
             <Route index element={<Home />} />
-            <Route path="/home" element={<Home />}></Route>
-            <Route path="/tutelle" element={<Tutelle />}></Route>
-            <Route path="/tutelle/2" element={<Tutelle2 />}></Route>
+            <Route path="/home" element={<Home />} />
+            <Route path="/tutelle" element={<Tutelle />} />
+            <Route path="/tutelle/2" element={<Tutelle2 />} />
           </Route>
         </Routes>
       </HashRouter>

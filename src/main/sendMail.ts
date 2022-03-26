@@ -1,61 +1,65 @@
-import { mainWindow } from './main';
+import { BrowserWindow } from 'electron';
+import nodemailer from 'nodemailer';
 
-const nodemailer = require('nodemailer');
-//import nodemailer from 'nodemailer';
+export default class SendMail {
+  mainWindow: BrowserWindow;
 
-let pdfDescriptionItemList: any[] = [];
+  pdfDescriptionItemList: any[];
 
-export function setList(params: any[]) {
-  pdfDescriptionItemList = params;
-}
+  constructor(mainWindow: BrowserWindow) {
+    this.mainWindow = mainWindow;
+    this.pdfDescriptionItemList = [];
+  }
 
-export async function SendIt() {
-  const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false,
-    requireTLS: true,
-    auth: {
-      user: 'pinot.leo@gmail.com',
-      pass: '753159Asc!',
-    },
-  });
+  setList(params: any[]) {
+    this.pdfDescriptionItemList = params;
+  }
 
-  let mailSubject: string = '';
-  let mailText = 'Bonjour \nVeuillez trouver ci-joint la facture de M';
+  SendIt() {
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: false,
+      requireTLS: true,
+      auth: {
+        user: 'pinot.leo@gmail.com',
+        pass: '753159Asc!',
+      },
+    });
 
-  pdfDescriptionItemList.forEach((pdfDescriptionItem) => {
-    mailSubject += pdfDescriptionItem.name + '/';
-    mailText +=
-      ' ' +
-      pdfDescriptionItem.name.split('_')[1] +
-      ' du bon numéro ' +
-      pdfDescriptionItem.name.split('_')[3].split('.')[0] +
-      ',';
-  });
-  console.log(mailText);
-  console.log(mailText.substring(0, mailText.length - 1));
-  mailSubject = mailSubject.substring(0, mailSubject.length - 1);
-  mailText = mailText.substring(0, mailText.length - 1);
-  console.log(mailText);
-  mailText += '.\nCordialement\nNicolas Pinot';
-  console.log(mailText);
+    let mailSubject = '';
+    let mailText = 'Bonjour \nVeuillez trouver ci-joint la facture de M';
 
-  const mailOptions = {
-    from: 'pinot.leo@gmail.com',
-    to: 'pinot.leo@gmail.com',
-    subject: mailSubject,
-    text: mailText,
-    attachments: pdfDescriptionItemList,
-  };
+    this.pdfDescriptionItemList.forEach((pdfDescriptionItem) => {
+      mailSubject += `${pdfDescriptionItem.name}/`;
+      mailText += ` ${pdfDescriptionItem.name.split('_')[1]} du bon numéro ${
+        pdfDescriptionItem.name.split('_')[3].split('.')[0]
+      },`;
+    });
+    console.log(mailText);
+    console.log(mailText.substring(0, mailText.length - 1));
+    mailSubject = mailSubject.substring(0, mailSubject.length - 1);
+    mailText = mailText.substring(0, mailText.length - 1);
+    console.log(mailText);
+    mailText += '.\nCordialement\nNicolas Pinot';
+    console.log(mailText);
 
-  transporter.sendMail(mailOptions, function (err: any, info: any) {
-    if (err) {
-      console.log(err);
-      mainWindow?.webContents.send('mail:error');
-    } else {
-      console.log(info);
-      mainWindow?.webContents.send('mail:success');
-    }
-  });
+    const mailOptions = {
+      from: 'pinot.leo@gmail.com',
+      to: 'pinot.leo@gmail.com',
+      subject: mailSubject,
+      text: mailText,
+      attachments: this.pdfDescriptionItemList,
+    };
+
+    transporter.sendMail(mailOptions, (err: any, info: any) => {
+      if (err) {
+        console.log(err);
+        this.mainWindow.webContents.send('mail:error');
+      } else {
+        console.log(info);
+        this.mainWindow.webContents.send('mail:success');
+      }
+    });
+  }
 }

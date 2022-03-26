@@ -4,7 +4,7 @@ import { AiFillCaretDown, AiFillCaretUp, AiOutlineUser } from 'react-icons/ai';
 
 import { SidebarItem } from '../../models/SidebarItem';
 
-export const SidebarData: SidebarItem[] = [
+const SidebarData: SidebarItem[] = [
   {
     title: 'Acceuil',
     path: '/home',
@@ -31,3 +31,5 @@ export const SidebarData: SidebarItem[] = [
     selected: false,
   },
 ];
+
+export default SidebarData;

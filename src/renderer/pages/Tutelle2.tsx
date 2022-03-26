@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, FC } from 'react';
 
-import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Tutelle.scss';
 
 const Tutelle2: FC = () => {
-  const [mailList, setmailList] = useState<String[]>();
+  const [mailList, setmailList] = useState<string[]>();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -13,7 +12,6 @@ const Tutelle2: FC = () => {
   }, []);
 
   window.electron.ipcRenderer.on('mail:list', (_event, args) => {
-    console.log('MAILLIST');
     setmailList(args);
   });
 
@@ -26,7 +24,9 @@ const Tutelle2: FC = () => {
     <div className="mainTutelle">
       <div className="tutelleElem">
         <h1 className="stepTitle">Etape 2 : Choisisez les mails</h1>
-        <button onClick={sendMail}>Notify!</button>
+        <button type="button" onClick={sendMail}>
+          Notify!
+        </button>
 
         <div>
           {mailList?.map((item) => (

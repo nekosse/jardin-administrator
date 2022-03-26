@@ -7,11 +7,11 @@ const PDFSelector = () => {
   const [fileList, setfileList] = useState<PDFDescriptionItem[]>();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    var pdfDescriptionItemList: PDFDescriptionItem[] = [];
+    const { files } = event.target;
+    const pdfDescriptionItemList: PDFDescriptionItem[] = [];
     console.log(files);
     if (files != null) {
-      for (let i = 0; i < files.length; i++) {
+      for (let i = 0; i < files.length; i += 1) {
         pdfDescriptionItemList.push({
           name: files[i].name,
           path: files[i].path,
