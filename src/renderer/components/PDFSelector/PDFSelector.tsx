@@ -11,17 +11,17 @@ const PDFSelector = () => {
     const pdfDescriptionItemList: PDFDescriptionItem[] = [];
     console.log(files);
     if (files != null) {
-      for (let i = 0; i < files.length; i += 1) {
+      /* for (let i = 0; i < files.length; i += 1) {
         pdfDescriptionItemList.push({
           name: files[i].name,
           path: files[i].path,
           contentType: 'application/pdf',
         });
-      }
+      } */
     }
-    window.electron.ipcRenderer.setPdfList(pdfDescriptionItemList);
+    // window.electron.ipcRenderer.setPdfList(pdfDescriptionItemList);
 
-    setfileList(pdfDescriptionItemList);
+    // setfileList(pdfDescriptionItemList);
   };
 
   return (

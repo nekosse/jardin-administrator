@@ -1,19 +1,41 @@
-.mainTutelle {
+.lists {
   display: flex;
-  align-items: center;
-  height: 100vh;
+  justify-content: center;
+  gap: 5vw;
 }
 
-.tutelleElem {
+.mainTutelle {
+  padding-top: 5vh;
   display: flex;
-  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.send {
+  margin-top: auto;
+  display: flex;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 20vh;
-  margin-bottom: auto;
-  flex-direction: column;
+  margin-bottom: 5vh;
+  align-items: center;
+  background: var(--item-hover-color);
+  cursor: pointer; /* "hand" cursor */
+  padding: 1vh;
+  color: var(--box-header-color);
 }
 
-.nextIcon {
-  color: #009736;
+.send__icon {
+  color: var(--send-hover-bg);
+  margin-right: 1vw;
+}
+
+.send:hover {
+  transform: scale(1.2);
+  background: var(--send-hover-bg);
+  color: var(--item-hover-color);
+}
+
+.send:hover .send__icon {
+  color: var(--item-hover-color);
 }

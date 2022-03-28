@@ -1,10 +1,13 @@
+import { PDFDescriptionItem } from './models/PdfDescriptionItem';
+
 declare global {
   interface Window {
     electron: {
       ipcRenderer: {
         myPing(): void;
-        sendMail(): void;
+        sendMail(pdfList: PDFDescriptionItem[]): void;
         getMailList(): void;
+        getData(path: string): void;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         setPdfList(pdfList: any): void;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

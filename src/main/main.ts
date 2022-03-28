@@ -12,6 +12,7 @@ import path from 'path';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
+import fs from 'fs';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import SendMail from './sendMail';
@@ -103,9 +104,9 @@ const createWindow = async () => {
 
   dataBaseManager.initDB();
 
-  ipcMain.on('sendMail', () => {
+  ipcMain.on('sendMail', (event, args) => {
     console.log('ipcMain: Executing SendIt');
-    sendMail.SendIt();
+    sendMail.SendIt(args);
   });
 
   ipcMain.on('SetPDFList', (event, args) => {
@@ -127,6 +128,18 @@ const createWindow = async () => {
   // eslint-disable-next-line
   new AppUpdater();
 };
+
+ipcMain.on('getData', (event, arg) => {
+  const files = fs
+    .readdirSync(arg)
+    .filter((file) => file.startsWith('FACTURE_'));
+  const pdfList = (pdfs: string[], mails: string[]) => [pdfs, mails];
+
+  event.reply(
+    'fileList',
+    pdfList(files, ['pinot.leo@gmail.com', 'pinot.nicolas@gmail.com'])
+  );
+});
 
 /**
  * Add event listeners...

@@ -2,6 +2,7 @@ import { useEffect, useState, FC } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 import './Tutelle.scss';
+import BarWave from 'react-cssfx-loading/lib/BarWave';
 
 const Tutelle2: FC = () => {
   const [mailList, setmailList] = useState<string[]>();
@@ -16,8 +17,8 @@ const Tutelle2: FC = () => {
   });
 
   const sendMail = () => {
-    window.electron.ipcRenderer.sendMail();
-    navigate('/tutelle', { replace: true });
+    // window.electron.ipcRenderer.sendMail();
+    navigate('/home', { replace: true });
   };
 
   return (
@@ -33,6 +34,8 @@ const Tutelle2: FC = () => {
             <p> {item} </p>
           ))}
         </div>
+
+        <BarWave color="#FF0000" width="100px" height="100px" duration="3s" />
       </div>
     </div>
   );

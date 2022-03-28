@@ -1,6 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One&display=swap');
 
+:root {
+  --main-color: #1fa138;
+  --main-bg-color: #f0f0f0;
+  --item-hover-bg: #1fa138;
+  --item-hover-color: #fff;
+  --item-bg-color: #fff;
+  --box-header-bg: #fff;
+  --box-header-color: gray;
+  --box-header-sub-color: #1fa13986;
+
+  --mail-hover-bg: #f88e55;
+  --mail-header-sub-color: #f88e5585;
+
+  --send-hover-bg: #ce261a;
+}
+
 * {
   padding: 0;
   margin: 0;
@@ -8,7 +24,7 @@
 }
 
 body {
-  background-color: #f0f0f0;
+  background-color: var(--main-bg-color);
   color: #2b2b2b;
   font-family: 'Roboto', sans-serif;
   min-height: 100%;

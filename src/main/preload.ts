@@ -5,14 +5,17 @@ contextBridge.exposeInMainWorld('electron', {
     myPing() {
       ipcRenderer.send('ipc-example', 'ping');
     },
-    sendMail() {
-      ipcRenderer.send('sendMail');
+    sendMail(pdfList: any) {
+      ipcRenderer.send('sendMail', pdfList);
     },
     getMailList() {
       ipcRenderer.send('mail:getList');
     },
     setPdfList(pdfList: any) {
       ipcRenderer.send('SetPDFList', pdfList);
+    },
+    getData(path: string) {
+      ipcRenderer.send('getData', path);
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     on(channel: string, func: (...args: any[]) => void) {
@@ -21,6 +24,7 @@ contextBridge.exposeInMainWorld('electron', {
         'mail:success',
         'mail:error',
         'mail:list',
+        'fileList',
       ];
       if (validChannels.includes(channel)) {
         // Deliberately strip event as it includes `sender`

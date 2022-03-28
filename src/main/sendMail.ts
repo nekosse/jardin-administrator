@@ -15,7 +15,9 @@ export default class SendMail {
     this.pdfDescriptionItemList = params;
   }
 
-  SendIt() {
+  SendIt(pdfList: any[]) {
+    this.pdfDescriptionItemList = pdfList;
+
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port: 587,

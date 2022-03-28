@@ -1,0 +1,3 @@
+type MailListProps = {
+  mailList: string[];
+};

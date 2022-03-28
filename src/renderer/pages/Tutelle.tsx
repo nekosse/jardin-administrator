@@ -1,20 +1,61 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { BsArrowRightCircleFill } from 'react-icons/bs';
-import { Link } from 'react-router-dom';
+import { RiMailSendLine } from 'react-icons/ri';
+import { Link, useNavigate } from 'react-router-dom';
+import MailList from 'renderer/components/MailList/MailList';
+import PDFList from 'renderer/components/PDFList/PDFList';
+import { PDFDescriptionItem } from 'renderer/models/PdfDescriptionItem';
 import PDFSelector from '../components/PDFSelector/PDFSelector';
 import './Tutelle.scss';
 
 const Tutelle: FC = () => {
+  const [pdfList, setPDFList] = useState<PDFDescriptionItem[]>([]);
+
+  const [mailList, setMailList] = useState<string[]>([]);
+  const navigate = useNavigate();
+
+  window.electron.ipcRenderer.on('fileList', (args: string[][]) => {
+    const pdfDescriptionItemList: PDFDescriptionItem[] = [];
+
+    for (let i = 0; i < args[0].length; i += 1) {
+      pdfDescriptionItemList.push({
+        name: args[0][i],
+        path: `/home/geovelo/Téléchargements/${args[0][i]}`,
+        contentType: 'application/pdf',
+        active: false,
+      });
+    }
+    setPDFList(pdfDescriptionItemList);
+    setMailList(args[1]);
+  });
+  useEffect(() => {
+    window.electron.ipcRenderer.getData('/home/geovelo/Téléchargements');
+  }, []);
+
+  const sendMail = () => {
+    window.electron.ipcRenderer.sendMail(
+      pdfList.filter((item) => item.active === true)
+    );
+    window.location.reload();
+  };
+
   return (
     <div className="mainTutelle">
-      <div className="tutelleElem">
-        <h1 className="stepTitle">Etape 1 : Sélectionnez vos factures</h1>
-        <PDFSelector />
-        <div className="nextIcon">
-          <Link to="/tutelle/2">
-            <BsArrowRightCircleFill size={100} />
-          </Link>
+      <div className="lists">
+        <PDFList pdfList={pdfList} path="/home/geovelo/Téléchargements" />
+        <MailList mailList={mailList} />
+      </div>
+      <div
+        className="send"
+        onClick={sendMail}
+        onKeyDown={undefined}
+        role="button"
+        tabIndex={0}
+      >
+        <div className="send__icon">
+          <RiMailSendLine size={50} />
         </div>
+        <h2>Envoyer</h2>
       </div>
     </div>
   );
