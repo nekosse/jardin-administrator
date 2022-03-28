@@ -105,6 +105,7 @@ const createWindow = async () => {
   dataBaseManager.initDB();
 
   ipcMain.on('sendMail', (event, args) => {
+    console.log(event);
     console.log('ipcMain: Executing SendIt');
     sendMail.SendIt(args);
   });

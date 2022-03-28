@@ -30,7 +30,7 @@ export default class DataBaseManager {
 
         db.each(
           'SELECT COUNT(*) as count FROM mails',
-          function (err: any, row: { count: number }) {
+          function (row: { count: number }) {
             console.log('COUNT: ' + row.count);
             if (row.count === 0) {
               const stmt = db.prepare('INSERT INTO mails VALUES (?)');
@@ -43,7 +43,7 @@ export default class DataBaseManager {
 
             db.each(
               'SELECT rowid AS id, adresse FROM mails',
-              function (err: any, row: { id: string; adresse: string }) {
+              function (row: { id: string; adresse: string }) {
                 console.log(row.id + ': ' + row.adresse);
               }
             );
