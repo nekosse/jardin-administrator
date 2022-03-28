@@ -1,5 +1,5 @@
 import './PDFList.scss';
-import { FC, Fragment } from 'react';
+import { FC } from 'react';
 import { AiFillFolder } from 'react-icons/ai';
 import { PdfListProps } from 'renderer/props/PdfListProps';
 import { PDFDescriptionItem } from 'renderer/models/PdfDescriptionItem';

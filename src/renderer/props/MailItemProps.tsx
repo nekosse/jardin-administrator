@@ -1,4 +1,4 @@
-type MailItemProps = {
+export type MailItemProps = {
   title: string;
   activeIndex: number;
   index: number;

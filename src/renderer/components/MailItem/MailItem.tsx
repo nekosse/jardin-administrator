@@ -1,8 +1,9 @@
 import { AiFillCheckCircle } from 'react-icons/ai';
 import { IoMdPerson } from 'react-icons/io';
 import { BsEyeFill } from 'react-icons/bs';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import style from './MailItem.module.scss';
+import { MailItemProps } from 'renderer/props/MailItemProps';
 
 const MailItem: FC<MailItemProps> = ({
   title,

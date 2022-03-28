@@ -1,18 +1,14 @@
 import { FC, useEffect, useState } from 'react';
-import { BsArrowRightCircleFill } from 'react-icons/bs';
 import { RiMailSendLine } from 'react-icons/ri';
-import { Link, useNavigate } from 'react-router-dom';
 import MailList from 'renderer/components/MailList/MailList';
 import PDFList from 'renderer/components/PDFList/PDFList';
 import { PDFDescriptionItem } from 'renderer/models/PdfDescriptionItem';
-import PDFSelector from '../components/PDFSelector/PDFSelector';
 import './Tutelle.scss';
 
 const Tutelle: FC = () => {
   const [pdfList, setPDFList] = useState<PDFDescriptionItem[]>([]);
 
   const [mailList, setMailList] = useState<string[]>([]);
-  const navigate = useNavigate();
 
   window.electron.ipcRenderer.on('fileList', (args: string[][]) => {
     const pdfDescriptionItemList: PDFDescriptionItem[] = [];

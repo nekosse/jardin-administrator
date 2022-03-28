@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import { FC, useState } from 'react';
 import { IoMdAddCircle } from 'react-icons/io';
 import style from './MailList.module.scss';
 import MailItem from '../MailItem/MailItem';
