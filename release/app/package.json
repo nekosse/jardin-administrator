@@ -14,7 +14,8 @@
     "postinstall": "npm run electron-rebuild && npm run link-modules"
   },
   "dependencies": {
-    "nodemailer": "^6.7.3"
+    "nodemailer": "^6.7.3",
+    "sqlite3": "^5.0.2"
   },
   "license": "MIT"
 }

@@ -118,6 +118,16 @@ const createWindow = async () => {
     dataBaseManager.sendMailList();
   });
 
+  ipcMain.on('getData', async (event, arg) => {
+    const files = fs
+      .readdirSync(arg)
+      .filter((file) => file.startsWith('FACTURE_'));
+    const pdfList = (pdfs: string[], mails: string[]) => [pdfs, mails];
+    const mailList = await dataBaseManager.request();
+
+    event.reply('fileList', pdfList(files, mailList));
+  });
+
   // Open urls in the user's browser
   mainWindow.webContents.setWindowOpenHandler((edata) => {
     shell.openExternal(edata.url);
@@ -128,18 +138,6 @@ const createWindow = async () => {
   // eslint-disable-next-line
   new AppUpdater();
 };
-
-ipcMain.on('getData', (event, arg) => {
-  const files = fs
-    .readdirSync(arg)
-    .filter((file) => file.startsWith('FACTURE_'));
-  const pdfList = (pdfs: string[], mails: string[]) => [pdfs, mails];
-
-  event.reply(
-    'fileList',
-    pdfList(files, ['pinot.leo@gmail.com', 'pinot.nicolas@gmail.com'])
-  );
-});
 
 /**
  * Add event listeners...

@@ -1,17 +1,17 @@
 import { BrowserWindow } from 'electron';
 
-// const sqlite3 = require('sqlite3').verbose()
+const sqlite3 = require('sqlite3').verbose();
 
-/* const db = new sqlite3.Database(
+const db = new sqlite3.Database(
   'tutelle.db',
   sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE,
   (err: { message: any }) => {
     if (err) {
-      console.error(err.message)
+      console.error(err.message);
     }
-    console.log('Connected to the tutelle database.')
+    console.log('Connected to the tutelle database.');
   }
-) */
+);
 
 export default class DataBaseManager {
   mainWindow: BrowserWindow;
@@ -24,34 +24,35 @@ export default class DataBaseManager {
   }
 
   initDB() {
-    /* db.serialize(function () {
-    try {
-      db.run('CREATE TABLE IF NOT EXISTS  mails (adresse TEXT)')
+    db.serialize(function () {
+      try {
+        db.run('CREATE TABLE IF NOT EXISTS  mails (adresse TEXT)');
 
-      db.each(
-        'SELECT COUNT(*) as count FROM mails',
-        function (err: any, row: { count: number }) {
-          console.log('COUNT: ' + row.count)
-          if (row.count === 0) {
-            const stmt = db.prepare('INSERT INTO mails VALUES (?)')
-            stmt.run('pinot.leo@gmail.com')
-            stmt.run('pinot.nicolas@gmail.com')
+        db.each(
+          'SELECT COUNT(*) as count FROM mails',
+          function (err: any, row: { count: number }) {
+            console.log('COUNT: ' + row.count);
+            if (row.count === 0) {
+              const stmt = db.prepare('INSERT INTO mails VALUES (?)');
+              stmt.run('pinot.leo@gmail.com');
+              stmt.run('pinot.nicolas@gmail.com');
+              stmt.run('coucou.coucou@gmail.com');
 
-            stmt.finalize()
-          }
-
-          db.each(
-            'SELECT rowid AS id, adresse FROM mails',
-            function (err: any, row: { id: string; adresse: string }) {
-              console.log(row.id + ': ' + row.adresse)
+              stmt.finalize();
             }
-          )
-        }
-      )
-    } catch (error) {
-      console.error(error)
-    }
-  }) */
+
+            db.each(
+              'SELECT rowid AS id, adresse FROM mails',
+              function (err: any, row: { id: string; adresse: string }) {
+                console.log(row.id + ': ' + row.adresse);
+              }
+            );
+          }
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    });
     this.title = '';
   }
 
@@ -68,25 +69,24 @@ export default class DataBaseManager {
 
   request() {
     this.title = '';
-    return new Promise(function (resolve) {
+    return new Promise<string[]>(function (resolve, reject) {
       const mailList: string[] = [];
-      resolve(mailList);
 
-      /* db.each(
-      'SELECT rowid AS id, adresse FROM mails',
-      function (err: any, row: { id: string; adresse: string }) {
-        if (err) reject(err);
-        else {
-          console.log(row.id + ': ' + row.adresse);
-          mailList.push(row.adresse);
+      db.each(
+        'SELECT rowid AS id, adresse FROM mails',
+        function (err: any, row: { id: string; adresse: string }) {
+          if (err) reject(err);
+          else {
+            console.log(row.id + ': ' + row.adresse);
+            mailList.push(row.adresse);
+          }
+        },
+        function (err: any) {
+          if (err) {
+            reject(err);
+          } else resolve(mailList);
         }
-      },
-      function (err: any) {
-        if (err) {
-          reject(err);
-        } else resolve(mailList);
-      }
-    ); */
+      );
     });
   }
 }

@@ -22,6 +22,8 @@ release/app/dist
 release/build
 .erb/dll
 
+src/main/dataBaseManager.ts
+
 .idea
 npm-debug.log.*
 *.css.d.ts
